@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadWriteProjectBackupObjects",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject"],
+      "Resource": "arn:aws:s3:::sam10-residential-content-1229/backups/*"
+    },
+    {
+      "Sid": "ListProjectBackupPrefix",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::sam10-residential-content-1229",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["backups/", "backups/*"]
+        }
+      }
+    }
+  ]
+}

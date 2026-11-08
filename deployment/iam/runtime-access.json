@@ -7,7 +7,8 @@
       "Action": "s3:GetObject",
       "Resource": [
         "arn:aws:s3:::sam10-residential-content-1229/handbook/resident-handbook.md",
-        "arn:aws:s3:::sam10-residential-content-1229/deployment/residential-app-bundle.zip"
+        "arn:aws:s3:::sam10-residential-content-1229/deployment/residential-app-bundle.zip",
+        "arn:aws:s3:::sam10-residential-content-1229/deployment/monitoring-bundle.zip"
       ]
     },
     {
