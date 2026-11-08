@@ -1,0 +1,119 @@
+name: residential
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  mongodb:
+    image: mongo:8.0.20
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: residentadmin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Use start.py}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Use start.py}
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/01-resident.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
+    logging: *logging
+
+  gateway:
+    build: ./gateway
+    restart: unless-stopped
+    environment:
+      AWS_DEFAULT_REGION: ap-southeast-1
+      HANDBOOK_BUCKET: sam10-residential-content-1229
+      HANDBOOK_KEY: handbook/resident-handbook.md
+      GEMINI_PARAMETER: /sam10/residential/gemini-api-key
+      GEMINI_MODEL: gemini-3.6-flash
+      RESIDENT_GATEWAY_KEY: ${RESIDENT_GATEWAY_KEY:?Use start.py}
+      APP_VERSION: sam10-deployment-v1
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 15s
+      timeout: 6s
+      retries: 8
+      start_period: 45s
+    logging: *logging
+
+  api:
+    image: registry.librechat.ai/librechat-ai/librechat-dev@sha256:9625652b9d9ac9fbf9ff3505fc34770f822c7aa079f58d06b4e66eed2dc93aeb
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      gateway:
+        condition: service_healthy
+    environment:
+      HOST: 0.0.0.0
+      PORT: "3080"
+      NODE_ENV: production
+      MONGO_URI: ${MONGO_URI:?Use start.py}
+      DOMAIN_CLIENT: https://residential-assistant.54.179.56.26.sslip.io
+      DOMAIN_SERVER: https://residential-assistant.54.179.56.26.sslip.io
+      APP_TITLE: Residential Building Assistant
+      CUSTOM_FOOTER: Fictional residential building demo | Built with LibreChat
+      CONFIG_PATH: /app/librechat.yaml
+      ENDPOINTS: custom
+      SEARCH: "false"
+      ALLOW_REGISTRATION: "false"
+      ALLOW_SOCIAL_LOGIN: "false"
+      ALLOW_SOCIAL_REGISTRATION: "false"
+      ALLOW_EMAIL_LOGIN: "true"
+      ALLOW_PASSWORD_RESET: "false"
+      JWT_SECRET: ${JWT_SECRET:?Use start.py}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?Use start.py}
+      CREDS_KEY: ${CREDS_KEY:?Use start.py}
+      CREDS_IV: ${CREDS_IV:?Use start.py}
+      RESIDENT_GATEWAY_KEY: ${RESIDENT_GATEWAY_KEY:?Use start.py}
+    volumes:
+      - ./librechat.yaml:/app/librechat.yaml:ro
+      - app_data:/app/data
+      - app_images:/app/client/public/images
+      - app_uploads:/app/uploads
+      - app_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3080/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 8s
+      retries: 12
+      start_period: 60s
+    logging: *logging
+
+  caddy:
+    profiles: [public]
+    image: caddy:2
+    container_name: residential-proxy
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    logging: *logging
+
+volumes:
+  mongodb_data:
+  app_data:
+  app_images:
+  app_uploads:
+  app_logs:
+  caddy_data:
+    external: true
+    name: residential-caddy-data
+  caddy_config:
+    external: true
+    name: residential-caddy-config

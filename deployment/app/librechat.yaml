@@ -1,0 +1,36 @@
+version: 1.3.18
+cache: true
+
+interface:
+  customWelcome: How can I help with your building today?
+  endpointsMenu: false
+  modelSelect: false
+  parameters: false
+  agents: false
+  presets: false
+  multiConvo: false
+
+endpoints:
+  custom:
+    - name: Resident Guide
+      apiKey: '${RESIDENT_GATEWAY_KEY}'
+      baseURL: http://gateway:8000/v1
+      models:
+        default: [gemini-3.6-flash]
+        fetch: false
+      titleConvo: false
+      modelDisplayLabel: Residential Building Assistant
+
+modelSpecs:
+  enforce: true
+  prioritize: true
+  list:
+    - name: resident-guide
+      label: Residential Building Assistant
+      default: true
+      description: Answers from the fictional resident handbook
+      preset:
+        endpoint: Resident Guide
+        model: gemini-3.6-flash
+        max_tokens: 1024
+        greeting: Ask about building rules, amenities, visitors, or maintenance.

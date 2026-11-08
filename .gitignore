@@ -10,6 +10,8 @@
 
 # Generated runtime data and local dependencies
 node_modules/
+__pycache__/
+*.py[cod]
 data-node/
 meili_data*/
 logs/
@@ -20,5 +22,8 @@ backups/
 # OS and editor artifacts
 .DS_Store
 Thumbs.db
+
+# Keep new evidence captures local until final deliverable review.
+/docs/evidence/
 
 # LibreChat retains its own application-specific ignore rules.

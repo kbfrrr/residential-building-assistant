@@ -1,0 +1,36 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadResidentDeploymentFiles",
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": [
+        "arn:aws:s3:::sam10-residential-content-1229/handbook/resident-handbook.md",
+        "arn:aws:s3:::sam10-residential-content-1229/deployment/residential-app-bundle.zip"
+      ]
+    },
+    {
+      "Sid": "ReadApplicationSecrets",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": [
+        "arn:aws:ssm:ap-southeast-1:125035824720:parameter/sam10/residential/gemini-api-key",
+        "arn:aws:ssm:ap-southeast-1:125035824720:parameter/sam10/residential/app-secrets"
+      ]
+    },
+    {
+      "Sid": "RestrictParameterReadsFromManagedPolicies",
+      "Effect": "Deny",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath"
+      ],
+      "NotResource": [
+        "arn:aws:ssm:ap-southeast-1:125035824720:parameter/sam10/residential/gemini-api-key",
+        "arn:aws:ssm:ap-southeast-1:125035824720:parameter/sam10/residential/app-secrets"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+residential-assistant.54.179.56.26.sslip.io {
+    encode zstd gzip
+    reverse_proxy api:3080
+}
