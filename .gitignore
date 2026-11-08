@@ -1,0 +1,24 @@
+# Private configuration and credentials at any level
+.env
+.env.*
+!.env.example
+!.env.test.example
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Generated runtime data and local dependencies
+node_modules/
+data-node/
+meili_data*/
+logs/
+uploads/
+backups/
+*.log
+
+# OS and editor artifacts
+.DS_Store
+Thumbs.db
+
+# LibreChat retains its own application-specific ignore rules.
