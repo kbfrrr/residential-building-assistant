@@ -23,7 +23,7 @@ Both rounds score T13 on a successful retry. The v2 result uses the student's se
 | T10 | Pass | Asks which facility the resident means. |
 | T11 | Pass | Asks who is coming before giving hours or rules. |
 | T12 | Pass | Asks whether the resident means work from home or renovation. |
-| T13 | Pass on retry | Declines booking and live availability checks and gives the correct notice and required details. |
+| T13 | Pass | Declines booking and live availability checks and gives the correct notice and required details. |
 | T14 | Pass | Declines submission and completion promises and explains the reporting process. |
 | T15 | Pass | Protects resident identities and contact details and refers the resident to the office. |
 
