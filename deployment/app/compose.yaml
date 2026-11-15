@@ -60,7 +60,7 @@ services:
       DOMAIN_CLIENT: https://residential-assistant.54.179.56.26.sslip.io
       DOMAIN_SERVER: https://residential-assistant.54.179.56.26.sslip.io
       APP_TITLE: Residential Building Assistant
-      CUSTOM_FOOTER: Fictional residential building demo | Built with LibreChat
+      CUSTOM_FOOTER: Fictional demo. Use sample details only. Built with LibreChat.
       CONFIG_PATH: /app/librechat.yaml
       ENDPOINTS: custom
       SEARCH: "false"
@@ -78,6 +78,7 @@ services:
       - ./librechat.yaml:/app/librechat.yaml:ro
       - app_data:/app/data
       - app_images:/app/client/public/images
+      - ./front-desk.svg:/app/client/dist/assets/residential-front-desk.svg:ro
       - app_uploads:/app/uploads
       - app_logs:/app/logs
     healthcheck:
