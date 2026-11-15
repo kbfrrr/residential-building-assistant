@@ -1,0 +1,19 @@
+# Scheduled answer checks: second automation
+
+Observed results November 9, 2026 (Manila): manual run 20261108T184856Z-20e6c563 passed 3/3 and its matching email arrived. Two unattended validation runs followed: 20261108T185751Z-8debecd7 and 20261108T190252Z-aaaf8e26, completed around 02:57:59 and 03:02:59 Manila. Both journals show 3/3 heuristic passes, notification_sent true and successful service completion. These are five-minute validation runs, not separate overnight runs. Nightly timer activation remains pending; formal 15-question evaluation is separate.
+
+Three fixed invented questions cover Monday pool closure, gym hours and an unspecified parking-sticker fee. The script invokes the private authenticated gateway from the existing LibreChat API container, using its runtime key without printing it. Each question is a separate request with only a user message. The model and S3-backed handbook follow the current deployed gateway configuration. Three Gemini requests are consumed per run; the model's account quota/pricing applies.
+
+This checks the internal gateway, model and handbook path. It excludes public HTTPS and browser login. Heuristics inspect a few expected phrases and can yield false positives or false negatives. They are regression signals requiring manual review, not the formal 15-question quality score or proof that all answers are correct. Raw answers and HTTP status are preserved privately in /var/lib/residential-quality/results/<run-id>.json. Do not overwrite failed results. No pass rate is claimed until observed runs exist.
+
+Prerequisites: ResidentialQualityAlertAccess sns:Publish on the existing alert topic, working Docker/Node/Python/AWS CLI, Gemini quota. No new package installation required. Run on EC2, not CloudShell or Windows. Emails contain summary only; raw answers remain in root-only report files. An exit failure after successful emailing can mean one heuristic failed; inspect the report before changing code. A notification failure leaves the completed answer report locally with notification_sent false. SNS acceptance alone does not prove inbox delivery.
+
+## Student setup
+
+Upload quality-bundle.zip to sam10-residential-content-1229/backups/setup/. Download and extract to /opt/residential-assistant/quality. The existing backups-prefix read policy permits reading this setup bundle; lifecycle expiration applies only to backups/daily/.
+
+Run `sudo python3 /opt/residential-assistant/quality/quality_check.py` once manually and inspect output and email. Then install temporary validation schedule with `sudo python3 /opt/residential-assistant/quality/install.py --schedule validation`. First timer trigger is after two minutes, then about every five minutes. Verify two distinct successful timer-triggered records with UTC timestamps in `sudo journalctl -u residential-quality.service -n 30 --no-pager` and compare with inbox results. A manual run does not count as unattended. Model requests appear in application traffic/latency logs; exclude scheduled checks from normal-user evaluation baselines.
+
+After two unattended runs, use `sudo python3 /opt/residential-assistant/quality/install.py --schedule nightly`. The final schedule is 18:15 UTC / 02:15 Manila daily, with missed-run catch-up enabled. The student confirmed the next trigger for November 15 at 02:15 Manila. Verify next trigger and preserve the validation history separately. Stop the temporary schedule promptly after validation to avoid unnecessary model requests. Reports contain no real resident data because test questions are invented. Before changing handbook policies later, review the expectations and record test-version changes; keep prior results.
+
+Offline tests use `python3 test_quality.py`. They check match rules and sanitized command failure only; live model behavior, credentials, role permissions, timer execution and email delivery require AWS verification.

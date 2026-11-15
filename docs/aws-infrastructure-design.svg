@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="1040" viewBox="0 0 1660 1040" role="img" aria-labelledby="title desc">
+<title id="title">Residential Building Assistant AWS infrastructure</title>
+<desc id="desc">Resident browser connects over HTTPS to Caddy, then LibreChat and the Resident gateway on EC2 in Singapore. LibreChat stores chats in MongoDB. The gateway uses the S3 handbook and Gemini API. Scheduled jobs back up the database and check answers. CloudWatch and SNS notify the operator by email.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="42" y="61" font-family="Segoe UI, Arial, sans-serif" font-size="39" font-weight="700" fill="#192d40">Residential Building Assistant</text>
+<text x="42" y="97" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="400" fill="#475e72">AWS infrastructure design</text>
+<rect x="304" y="134" width="1316" height="808" rx="22" fill="#fffaf0" stroke="#bc9854" stroke-width="1.5"/>
+<text x="332" y="173" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="700" fill="#192d40">AWS  /  Asia Pacific (Singapore)</text>
+<text x="1511" y="173" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="400" fill="#475e72">ap-southeast-1</text>
+<rect x="332" y="199" width="699" height="607" rx="17" fill="#fdf8ec" stroke="#d2b886" stroke-width="1.5"/>
+<text x="356" y="230" font-family="Segoe UI, Arial, sans-serif" font-size="23" font-weight="700" fill="#192d40">EC2  /  residential-assistant-server</text>
+<text x="356" y="255" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Ubuntu 24.04 LTS · m7i-flex.large · 30 GiB gp3 root disk</text>
+<text x="42" y="173" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#475e72">OUTSIDE AWS</text>
+<rect x="42" y="282" width="220" height="83" rx="15" fill="#f6f8fa" stroke="#8799a7" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="59" y="311" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Resident browser</text>
+<text x="59" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Public HTTPS website</text>
+<rect x="42" y="509" width="220" height="83" rx="15" fill="#f6f8fa" stroke="#8799a7" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="59" y="538" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Google Gemini API</text>
+<text x="59" y="563" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">gemini-3.6-flash</text>
+<rect x="42" y="819" width="220" height="83" rx="15" fill="#f6f8fa" stroke="#8799a7" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="59" y="848" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Student operator</text>
+<text x="59" y="873" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">MFA and setup role</text>
+<rect x="42" y="621" width="220" height="83" rx="15" fill="#f6f8fa" stroke="#8799a7" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="59" y="650" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Operator inbox</text>
+<text x="59" y="675" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">SNS email notifications</text>
+<rect x="356" y="280" width="352" height="85" rx="15" fill="#fffdf7" stroke="#d4b681" stroke-width="1.5"/>
+<text x="373" y="309" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Caddy reverse proxy</text>
+<text x="373" y="334" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">HTTPS 443 · HTTP 80 redirects to HTTPS</text>
+<rect x="356" y="392" width="352" height="85" rx="15" fill="#fffdf7" stroke="#d4b681" stroke-width="1.5"/>
+<text x="373" y="421" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">LibreChat</text>
+<text x="373" y="446" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Customized resident chat · internal port 3080</text>
+<rect x="758" y="392" width="247" height="85" rx="15" fill="#fffdf7" stroke="#d4b681" stroke-width="1.5"/>
+<text x="775" y="421" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">MongoDB 8</text>
+<text x="775" y="446" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Users and conversations</text>
+<text x="775" y="467" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Internal port 27017</text>
+<rect x="356" y="504" width="352" height="97" rx="15" fill="#fffdf7" stroke="#d4b681" stroke-width="1.5"/>
+<text x="373" y="533" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Resident gateway</text>
+<text x="373" y="558" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Internal port 8000 · loads handbook</text>
+<text x="373" y="579" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Sends question and context to Gemini</text>
+<rect x="356" y="657" width="649" height="121" rx="15" fill="#eef7f1" stroke="#a0c3ad" stroke-width="1.5"/>
+<text x="373" y="686" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Scheduled jobs and monitoring</text>
+<text x="373" y="711" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">02:00 Manila · database backup and manifest to S3</text>
+<text x="373" y="732" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">02:15 Manila · three answer checks through the gateway, summary via SNS</text>
+<text x="373" y="753" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">CloudWatch Agent and metrics job · container logs and system/app metrics</text>
+<rect x="1170" y="228" width="422" height="102" rx="15" fill="#edf5fc" stroke="#93b4ce" stroke-width="1.5"/>
+<text x="1187" y="257" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Amazon S3</text>
+<text x="1187" y="282" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Private, versioned content and backup objects</text>
+<text x="1187" y="303" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Current backup objects expire after 7 days</text>
+<rect x="1170" y="363" width="422" height="88" rx="15" fill="#edf5fc" stroke="#93b4ce" stroke-width="1.5"/>
+<text x="1187" y="392" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">SSM Parameter Store</text>
+<text x="1187" y="417" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">SecureString app secrets and Gemini key</text>
+<rect x="1170" y="482" width="422" height="102" rx="15" fill="#edf5fc" stroke="#93b4ce" stroke-width="1.5"/>
+<text x="1187" y="511" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Amazon CloudWatch</text>
+<text x="1187" y="536" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">3 log groups · 14-day log retention</text>
+<text x="1187" y="557" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Operations dashboard · 6 alarms</text>
+<rect x="1170" y="620" width="422" height="85" rx="15" fill="#edf5fc" stroke="#93b4ce" stroke-width="1.5"/>
+<text x="1187" y="649" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">Amazon SNS</text>
+<text x="1187" y="674" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Alerts and scheduled answer-check summaries</text>
+<rect x="1170" y="737" width="422" height="85" rx="15" fill="#edf5fc" stroke="#93b4ce" stroke-width="1.5"/>
+<text x="1187" y="766" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">AWS IAM</text>
+<text x="1187" y="791" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">EC2 instance role · scoped access to AWS services</text>
+<rect x="356" y="819" width="649" height="83" rx="15" fill="#edf5fc" stroke="#93b4ce" stroke-width="1.5"/>
+<text x="373" y="848" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700" fill="#192d40">AWS Systems Manager</text>
+<text x="373" y="873" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="400" fill="#475e72">Session Manager gives the operator access to the EC2 shell</text>
+<polyline points="262,322 356,322" fill="none" stroke="#963f2c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="262.00,322.00 272.00,317.50 272.00,326.50" fill="#963f2c"/>
+<polygon points="356.00,322.00 346.00,326.50 346.00,317.50" fill="#963f2c"/>
+<polyline points="532,365 532,392" fill="none" stroke="#963f2c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="532.00,365.00 536.50,375.00 527.50,375.00" fill="#963f2c"/>
+<polygon points="532.00,392.00 527.50,382.00 536.50,382.00" fill="#963f2c"/>
+<polyline points="532,477 532,504" fill="none" stroke="#963f2c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="532.00,477.00 536.50,487.00 527.50,487.00" fill="#963f2c"/>
+<polygon points="532.00,504.00 527.50,494.00 536.50,494.00" fill="#963f2c"/>
+<polyline points="356,550 262,550" fill="none" stroke="#963f2c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="356.00,550.00 346.00,554.50 346.00,545.50" fill="#963f2c"/>
+<polygon points="262.00,550.00 272.00,545.50 272.00,554.50" fill="#963f2c"/>
+<polyline points="708,434 758,434" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="708.00,434.00 718.00,429.50 718.00,438.50" fill="#246397"/>
+<polygon points="758.00,434.00 748.00,438.50 748.00,429.50" fill="#246397"/>
+<polyline points="708,526 1085,526 1085,273 1170,273" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1170.00,273.00 1160.00,277.50 1160.00,268.50" fill="#246397"/>
+<polyline points="708,554 1106,554 1106,407 1170,407" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1170.00,407.00 1160.00,411.50 1160.00,402.50" fill="#246397"/>
+<polyline points="682,657 682,601" fill="none" stroke="#397159" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polygon points="682.00,601.00 686.50,611.00 677.50,611.00" fill="#397159"/>
+<polyline points="1005,681 1054,681 1054,301 1170,301" fill="none" stroke="#397159" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polygon points="1170.00,301.00 1160.00,305.50 1160.00,296.50" fill="#397159"/>
+<polyline points="1005,707 1134,707 1134,556 1170,556" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1170.00,556.00 1160.00,560.50 1160.00,551.50" fill="#246397"/>
+<polyline points="1005,743 1151,743 1151,683 1170,683" fill="none" stroke="#397159" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polygon points="1170.00,683.00 1160.00,687.50 1160.00,678.50" fill="#397159"/>
+<polyline points="1381,584 1381,620" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="1381.00,620.00 1376.50,610.00 1385.50,610.00" fill="#246397"/>
+<polyline points="1170,638 1143,638 1143,616 280,616 280,664 262,664" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="262.00,664.00 272.00,659.50 272.00,668.50" fill="#246397"/>
+<polyline points="262,861 356,861" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="356.00,861.00 346.00,865.50 346.00,856.50" fill="#246397"/>
+<polyline points="820,819 820,806" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="820.00,806.00 824.50,816.00 815.50,816.00" fill="#246397"/>
+<polyline points="1170,779 1031,779" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polygon points="1031.00,779.00 1041.00,774.50 1041.00,783.50" fill="#246397"/>
+<polyline points="44,975 88,975" fill="none" stroke="#963f2c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="44.00,975.00 54.00,970.50 54.00,979.50" fill="#963f2c"/>
+<polygon points="88.00,975.00 78.00,979.50 78.00,970.50" fill="#963f2c"/>
+<text x="103" y="981" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#192d40">Question and answer</text>
+<polyline points="348,975 392,975" fill="none" stroke="#246397" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="392.00,975.00 382.00,979.50 382.00,970.50" fill="#246397"/>
+<text x="407" y="981" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#192d40">Data, access, logs or email</text>
+<polyline points="749,975 793,975" fill="none" stroke="#397159" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polygon points="793.00,975.00 783.00,979.50 783.00,970.50" fill="#397159"/>
+<text x="808" y="981" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" fill="#192d40">Scheduled work</text>
+</svg>

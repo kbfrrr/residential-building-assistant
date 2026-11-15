@@ -35,7 +35,7 @@ services:
       GEMINI_PARAMETER: /sam10/residential/gemini-api-key
       GEMINI_MODEL: gemini-3.6-flash
       RESIDENT_GATEWAY_KEY: ${RESIDENT_GATEWAY_KEY:?Use start.py}
-      APP_VERSION: sam10-deployment-v1
+      APP_VERSION: sam10-deployment-v2
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
       interval: 15s

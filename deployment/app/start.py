@@ -49,6 +49,7 @@ def load_environment():
 def main():
     commands = {
         "start": ["up", "-d", "--build", "--wait", "--wait-timeout", "300"],
+        "update-gateway": ["up", "-d", "--build", "--no-deps", "--wait", "--wait-timeout", "120", "gateway"],
         "publish": ["--profile", "public", "up", "-d", "--wait", "--wait-timeout", "300"],
         "create-user": ["exec", "api", "npm", "run", "create-user"],
         "status": ["ps", "-a"],

@@ -1,6 +1,12 @@
 # AWS Infrastructure Design
 
-Initial deployment, November 8, 2026. Based on deployment configuration, launch-form screenshots, service-health output, runtime access tests, and the student's successful browser chat. Final running-instance security and storage settings still need auditing. This diagram describes the current application; CloudWatch ingestion, alarms, backup jobs, and scheduled checks are not yet implemented.
+![Residential Building Assistant infrastructure in AWS Singapore](aws-infrastructure-design.png)
+
+[Scalable SVG version](aws-infrastructure-design.svg)
+
+Current architecture as of November 15, 2026 (Manila). Residents reach Caddy over HTTPS. LibreChat stores accounts and conversations in MongoDB and sends questions through the resident gateway to Gemini. The gateway reads the handbook from versioned S3 and retrieves its API key from Parameter Store. EC2 sends logs and metrics to CloudWatch, and SNS delivers CloudWatch alarms and scheduled answer-check summaries. The backup and answer-check timers are configured for 02:00 and 02:15 Manila daily.
+
+The following flowchart records the initial application deployment on November 8 before monitoring and scheduled jobs were added.
 
 ```mermaid
 flowchart LR
@@ -43,4 +49,4 @@ Only Caddy publishes app-stack host ports. MongoDB uses a dedicated application 
 
 The hostname is residential-assistant.54.179.56.26.sslip.io. sslip.io supplies DNS, and Caddy obtained a public certificate. Certificate data is retained in the existing named Caddy volume. The documentation website will be a separate GitHub Pages deployment.
 
-A single host was chosen to keep cost and operational scope manageable. This is a deliberate availability trade-off: failure of that host interrupts the app and database. The next priority is detecting failure and proving recovery.
+A single host keeps costs and maintenance manageable. Failure of that host interrupts the app and database. CloudWatch supplies alarms, S3 holds database backups, and the isolated restore test verified recovery of the database archive. Full host and application recovery time remains unmeasured.

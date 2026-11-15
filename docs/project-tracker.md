@@ -2,9 +2,19 @@
 
 Last updated: 2026-11-09, Asia/Manila.
 
-Personal completion target: November 9, 2026. Submission deadline: November 13, 2026; cutoff time not yet confirmed.
+The student reported a deadline extension on November 9, 2026; the revised deadline and cutoff time have not been provided. The earlier deadline was November 13 and the earlier personal target November 9; do not use those as the current confirmed deadline.
 
 ## Session handoff
+
+Current schedule: backups run at 02:00 Manila. The student confirmed the answer-check timer at 02:15 Manila, with its next trigger on November 15, 2026. The local installer matches. Check service logs for completed nightly runs before recording. Earlier handoff notes below are historical.
+
+November 14 journal evidence also shows daily 19:00 Manila answer checks. November 11 and 14 passed 3/3, while November 12 and 13 passed 2/3. All four visible completion records report notification_sent true. The checker exits with status 1 when any check fails, so systemd marked those two completed runs as failed. The individual report files are needed to diagnose the failed checks.
+
+Paused at the student's request November 9, 2026 (Asia/Manila). Codex stopped all six local LibreChat development containers using docker compose stop, preserving data and volumes. Current branch is automation-incident; current changes remain uncommitted and unpublished. AWS EC2 was deliberately left running for the website, alarms and scheduled jobs. Closing Session Manager/signing out/shutting down the student's PC does not stop EC2.
+
+Resume here: verify the selected 19:00 Manila (11:00 UTC) answer-check nightly timer. Instructions were provided, but no screenshot confirming application was received. Current repository installer still contains the earlier 18:15 UTC default; reconcile it with the verified cloud setting before the next commit. Three backup validation runs and two answer-check validation runs are already verified; do not rerun the five-minute test schedule unnecessarily. Daily backup timer is verified at 02:00 Manila. Next work: confirm schedules and overnight results, document incident/root cause/prevention, obtain honest recovery timings, run formal 15-question evaluation, finish security audit and submission artifacts. Handbook edits were explicitly deferred.
+
+Local resume command, when local services are actually needed: docker compose -p librechat up -d from LibreChat/. Keep evidence images local and ignored. No push or publish action was performed during this pause. The following earlier handoff describes historical progress.
 
 Development resumed on November 8, 2026 at the student's request. Codex started Docker Desktop and the six local services and verified an HTTP 200 homepage response. Earlier stop and migration actions preserved the data and volumes. Student has since launched EC2 and successfully installed Docker there. See [AWS setup and evidence](aws-setup.md). Codex has not committed or pushed the current tracking updates.
 
@@ -53,7 +63,7 @@ Evidence IDs follow Appendix B of the project brief. Captured images are origina
 | E-01 | Reskinned interface with realistic question and answer | [Resident agent test](evidence/E-01-resident-agent.png) captured. Replace or supplement with final branding. |
 | E-02 | Deployed system URL | Live browser chat observed at https://residential-assistant.54.179.56.26.sslip.io. Preserve selected evidence during deliverable compilation. |
 | E-03 | Three test questions and answers including a failure | [Two boundary tests](evidence/E-03-boundary-tests.png) captured, plus the E-01 pool question. All three demonstrated expected behavior; actual failure evidence remains pending. |
-| E-04 | Quality measurement script and result | Pending; no evaluation score claimed. |
+| E-04 | Quality measurement script and result | [15-question manual baseline](evaluation-test-plan.md) scored 11/15 (73.3%; one partial and three failures). The [formal v2 retest](evaluation-retest.md) scored 15/15 (100%). Both rounds score T13 on a retry. The three-question scheduled checker and its logs provide separate automation evidence. |
 | E-05 | Original interface for reskin comparison | [Original LibreChat interface](evidence/E-05-original-interface.png) captured. |
 | E-06 | Populated dashboard | Student screenshots verified Residential-Assistant-Operations with populated request, error, latency, CPU, disk, memory, database and heartbeat graphs. Image selection/publication deferred. |
 | E-07 | Alarms | Student demonstrated all six Residential-prefixed alarms in CloudWatch, each OK with actions enabled. Actual metric-triggered email delivery remains pending. Image selection/publication deferred. |
@@ -63,8 +73,8 @@ Evidence IDs follow Appendix B of the project brief. Captured images are origina
 | E-11 | Restore output and verification | Downloaded archive checksum verified. Initial isolated restore failed index creation because test tmpfs was too small; retry with 1 GiB restored 75 documents. All 60 collection counts match the manifest; the previously failing compound messages index is present and unique. After the cleanup instruction, running-container list excludes the test container and shows production containers up. Container deletion itself was not shown. Measured full recovery timing remains pending. Original captures remain local. |
 | E-12 | MFA and IAM user list | Pending completed-settings screenshots. |
 | E-13 | Parameter Store or Secrets Manager setup | [SecureString creation](evidence/E-13-parameter-created.png) confirmed. Student demonstrated decrypted retrieval with only metadata displayed; key acceptance by Gemini remains untested on EC2. |
-| E-14 | Two automations with unattended timestamps | Backup automation demonstrated three unattended successes under the disclosed temporary five-minute validation schedule: November 9 around 01:37, 01:42 and 01:47 Manila. Second distinct automation with two unattended runs remains pending. Nightly backup schedule not yet verified. |
-| E-15 | Fault investigation logs and commands | Pending assessed incident. Local setup troubleshooting is documented separately. |
+| E-14 | Two automations with unattended timestamps | Backup automation demonstrated three unattended successes under the disclosed temporary five-minute schedule; final nightly backup timer next trigger verified. Answer-check automation demonstrated two unattended successes with 3/3 heuristics and notification_sent true: November 9 around 02:57:59 and 03:02:59 Manila. Both used temporary validation intervals, not multiple overnight runs. Final nightly answer-check timer verified at 02:15 Manila. Completion of the November 15 nightly run is pending. |
+| E-15 | Fault investigation logs and commands | Isolated restore incident drafted from E-11 evidence. A 256 MiB test mount left insufficient free space for index creation. A 1 GiB retry succeeded, with matching collection counts and a verified messages index. The runbook records the prevention steps and a 2 minute 48 second interval between logged failure and retry completion. |
 | E-16 | Cost before and after | Pending. Budget configuration is separate from cost-comparison evidence. |
 | E-17 | Six-pillar review and highest-priority gap | [Initial review](baseline-review.md) drafted; final review after incident remains pending. |
 | E-18 | AWS infrastructure design | [Current app diagram](architecture.md) drafted; update after monitoring/backup changes. |

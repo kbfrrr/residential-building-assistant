@@ -1,0 +1,33 @@
+name: Publish SAM10 project site
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out reviewed project files
+        uses: actions/checkout@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload the single-page site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

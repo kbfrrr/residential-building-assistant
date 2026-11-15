@@ -2,6 +2,21 @@
 
 A SAM10 Systems Administration and Maintenance school project adapting LibreChat into an informational assistant for a fictional residential building.
 
+## Review the project
+
+- [Project site source](site/index.html) is a single HTML file. Open it directly in your browser to view the system card, architecture, operations evidence, restore incident, and evaluation chart.
+- [Live AWS chatbot](https://residential-assistant.54.179.56.26.sslip.io/) is the separate deployed application.
+- [AWS architecture](docs/architecture.md) and [EC2 deployment instructions](deployment/app/README.md) explain how the system runs. The [monitoring](deployment/monitoring/README.md), [backup](deployment/backup/README.md), and [answer-check](deployment/quality/README.md) folders contain operational setup and automation.
+- [Resident handbook](content/resident-handbook.md), [restore test and runbook](deployment/backup/restore-test.md), [baseline evaluation](docs/evaluation-test-plan.md), and [formal retest](docs/evaluation-retest.md) accompany the site.
+
+### Publish after your review
+
+1. Open [site/index.html](site/index.html). Add the reviewed MFA and IAM evidence, comparable billing figures, signed declaration, and recording. At the video marker, add the video iframe and a direct watch link. Confirm the instructor can play it and access the website.
+2. Review your staged files and reachable Git history before pushing. Keep the raw evidence folder and private runtime data out of the public submission. Earlier commits include three screenshots under `docs/evidence/` (E-01, E-03, and E-05) that need review. Leave the local recording notes unstaged and keep the presentation-flow PDF beside the repository.
+3. Commit the reviewed project changes and push the intended default branch yourself. If you keep phase branches, merge the reviewed changes into `main` before publishing.
+4. Open **Settings → Pages**, choose **GitHub Actions** as the source, then open **Actions → Publish SAM10 project site → Run workflow** on the default branch. The workflow publishes only `site/`. Check the resulting Pages URL, evidence, and embedded video in a signed-out browser.
+5. Package the reviewed repository after the final commit. Include its `.git` directory and `README.md`, omit local evidence and runtime data, and verify the archive before submitting. A GitHub source download omits `.git`.
+
 ## Project folders
 
 - `content/` contains the fictional resident handbook.
@@ -101,6 +116,14 @@ Restore data-count verification (2026-11-09, Manila): student compared the isola
 Messages index verified (2026-11-09, Manila): student demonstrated messageId_1_user_1_tenantId_1 with unique true in the restored test database. Together with matching archive SHA-256, 75 restored documents and matching counts for all 60 collections, this completes the demonstrated database restore checks. Test-container cleanup and a measured full recovery exercise remain pending. Full index-definition and field-by-field comparison were not performed.
 
 Post-restore live-system check (2026-11-09, Manila): student demonstrated docker ps with residential-proxy running and residential-api-1, residential-mongodb-1 and residential-gateway-1 healthy. Restore-test container was absent from the running list after cleanup instructions; the removal command output itself was not captured. Monitoring/backup core checks are ready for a local phase commit and transition to automation/incident work. Codex has not committed or pushed files or evidence.
+
+Second automation preparation (2026-11-09, Manila): student demonstrated ResidentialQualityAlertAccess created on the EC2 role. Codex prepared a three-question heuristic answer regression check, private raw-response reports, SNS summary emails, and validation/nightly systemd schedule installer on automation-incident. Three offline tests passed and installer syntax was checked. Source-only quality-bundle.zip is ready for manual upload. Live execution, inbox delivery and two unattended runs remain pending; this is distinct from the formal 15-question evaluation.
+
+Second automation manual check verified (2026-11-09, Manila): student demonstrated quality_check_completed for run 20261108T184856Z-20e6c563, completed 02:49:08 Manila, with 3/3 heuristic checks and notification_sent true. Matching SNS summary email was received. Raw answers are stored privately on EC2. This is one manual regression check, not an unattended run or formal project quality score. Two unattended validation executions and nightly schedule activation remain pending. Originals preserved locally only.
+
+Second automation unattended runs verified (2026-11-09, Manila): student showed two successful systemd-triggered answer checks: 20261108T185751Z-8debecd7 completed November 8 18:57:59 UTC / November 9 02:57:59 Manila, and 20261108T190252Z-aaaf8e26 completed 19:02:59 UTC / 03:02:59 Manila. Both recorded 3/3 heuristic passes, notification_sent true and successful service completion. The earlier manual email proves inbox delivery for that manual run; these journal entries prove SNS acceptance, not separately observed inbox receipt. Both required automations now have at least two unattended validation runs. Final nightly answer-check activation remains pending. Evidence preserved locally, not published.
+
+Development paused (2026-11-09, Manila): at the student's request Codex stopped the six local LibreChat containers while preserving data. AWS EC2 was left running for the live website, monitoring and schedules. Current branch is automation-incident; no changes were committed or pushed. Requested answer-check schedule is 19:00 Manila / 11:00 UTC, but cloud application has not yet been demonstrated and the repository installer still needs reconciliation with the verified setting. Resume with that check; handbook edits remain deferred.
 
 ### AI assistance record
 
