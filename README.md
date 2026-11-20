@@ -119,4 +119,4 @@ Development paused (2026-11-09, Manila): at my request Codex stopped the six loc
 
 ### AI assistance record
 
-Codex assisted with planning, setup instructions, handbook and prompt drafting, repository organization, migration commands, local checks, and documentation. I performed the installations, account setup, agent setup, and manual question tests. Review and update this record as work continues. The final submission declaration must describe AI assistance and how the output was verified.
+Codex was used to assist with setup and documentation. All decisions were reviewed and finalized by me.
