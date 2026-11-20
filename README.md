@@ -9,30 +9,22 @@ A SAM10 Systems Administration and Maintenance school project adapting LibreChat
 - [AWS architecture](docs/architecture.md) and [EC2 deployment instructions](deployment/app/README.md) explain how the system runs. The [monitoring](deployment/monitoring/README.md), [backup](deployment/backup/README.md), and [answer-check](deployment/quality/README.md) folders contain operational setup and automation.
 - [Resident handbook](content/resident-handbook.md), [restore test and runbook](deployment/backup/restore-test.md), [baseline evaluation](docs/evaluation-test-plan.md), and [formal retest](docs/evaluation-retest.md) accompany the site.
 
-### Publish after your review
-
-1. Open [site/index.html](site/index.html). Add the reviewed MFA and IAM evidence, comparable billing figures, signed declaration, and recording. At the video marker, add the video iframe and a direct watch link. Confirm the instructor can play it and access the website.
-2. Review your staged files and reachable Git history before pushing. Keep the raw evidence folder and private runtime data out of the public submission. Earlier commits include three screenshots under `docs/evidence/` (E-01, E-03, and E-05) that need review. Leave the local recording notes unstaged and keep the presentation-flow PDF beside the repository.
-3. Commit the reviewed project changes and push the intended default branch yourself. If you keep phase branches, merge the reviewed changes into `main` before publishing.
-4. Open **Settings → Pages**, choose **GitHub Actions** as the source, then open **Actions → Publish SAM10 project site → Run workflow** on the default branch. The workflow publishes only `site/`. Check the resulting Pages URL, evidence, and embedded video in a signed-out browser.
-5. Package the reviewed repository after the final commit. Include its `.git` directory and `README.md`, omit local evidence and runtime data, and verify the archive before submitting. A GitHub source download omits `.git`.
-
 ## Project folders
 
 - `content/` contains the fictional resident handbook.
 - `LibreChat/` contains the upstream application source and its original license and documentation.
 - `docs/` contains the project tracker and captured evidence.
+- `deployment/` contains deployment configuration, monitoring, backup automation, and operational runbooks.
+- `site/` contains the project website.
 
-Run application commands from `LibreChat/`. The local demonstration now runs from this repository. Its configuration, MongoDB files, uploads, and other local runtime files were copied from the original installation while its containers were stopped. Existing Docker named volumes were retained using the Compose project name `librechat`.
+To start the local application, open a terminal at the repository root with Docker Desktop running and the required local configuration in place:
 
 ```powershell
-cd "C:\Users\kobej\Documents\SAM10 Final Project\residential-building-assistant\LibreChat"
+cd LibreChat
 docker compose -p librechat up -d
 ```
 
-Open http://localhost:3080. Keep private configuration and runtime data ignored by Git. The original installation remains outside this repository as a temporary migration fallback pending manual verification.
-
-Local development was stopped at the student's request on November 8, 2026. All six project containers are stopped; data and Docker volumes were preserved. Use the startup commands above to resume.
+Open [http://localhost:3080](http://localhost:3080) after the containers start. Keep credentials, private configuration, and runtime data excluded from Git.
 
 ## Attribution
 
